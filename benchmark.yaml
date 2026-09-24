@@ -1,0 +1,129 @@
+id: perturbation_status_estimation
+description: "Complete perturbation-status estimation benchmark across Papalexi 2021, Norman 2019 and Replogle 2022."
+version: "0.2.0"
+benchmarker: "Yunzhe Liu, richelieu.xmas@gmail.com"
+
+software_backend: host
+software_environments:
+  frozen_local:
+    description: "Frozen project-owned Python/R environments used by the completed benchmark implementation."
+
+stages:
+  - id: data
+    modules:
+      - id: papalexi2021
+        name: "Papalexi 2021 standardized input"
+        software_environment: frozen_local
+        repository:
+          url: /home/yunzliu/omnibenchmark_modules/perturbation_status_data
+          commit: 88afa351b21b330d7ee44b77efe30d3fc4a4b245
+        parameters:
+          - h5ad: /data/yunzliu/perturbation_status_estimation_benchmark/01_standardize_inputs/outputs/papalexi2021/perturbation_adata.h5ad
+            project_root: /data/yunzliu/perturbation_status_estimation_benchmark
+            mixscape_config: /data/yunzliu/perturbation_status_estimation_benchmark/03_mixscape/config/papalexi2021.yaml
+            pooled_config: /data/yunzliu/perturbation_status_estimation_benchmark/03_mixscape/sharding/papalexi2021_pooled.yaml
+            mixscale_config: /data/yunzliu/perturbation_status_estimation_benchmark/04_mixscale/config/papalexi2021_pooled.yaml
+            ps_input_config: /data/yunzliu/perturbation_status_estimation_benchmark/05_ps/config/papalexi2021.yaml
+            ps_run_config: /data/yunzliu/perturbation_status_estimation_benchmark/05_ps/config/papalexi2021_scalable.yaml
+            target_expression_config: /data/yunzliu/perturbation_status_estimation_benchmark/06_target_expression_baseline/config/papalexi2021.yaml
+      - id: norman2019
+        name: "Norman 2019 standardized input"
+        software_environment: frozen_local
+        repository:
+          url: /home/yunzliu/omnibenchmark_modules/perturbation_status_data
+          commit: 88afa351b21b330d7ee44b77efe30d3fc4a4b245
+        parameters:
+          - h5ad: /data/yunzliu/perturbation_status_estimation_benchmark/01_standardize_inputs/outputs/norman2019/perturbation_adata.h5ad
+            project_root: /data/yunzliu/perturbation_status_estimation_benchmark
+            mixscape_config: /data/yunzliu/perturbation_status_estimation_benchmark/03_mixscape/config/norman2019.yaml
+            pooled_config: /data/yunzliu/perturbation_status_estimation_benchmark/03_mixscape/sharding/norman2019_pooled.yaml
+            mixscale_config: /data/yunzliu/perturbation_status_estimation_benchmark/04_mixscale/config/norman2019_pooled.yaml
+            ps_input_config: /data/yunzliu/perturbation_status_estimation_benchmark/05_ps/config/norman2019.yaml
+            ps_run_config: /data/yunzliu/perturbation_status_estimation_benchmark/05_ps/config/norman2019_scalable.yaml
+            target_expression_config: /data/yunzliu/perturbation_status_estimation_benchmark/06_target_expression_baseline/config/norman2019.yaml
+      - id: replogle2022
+        name: "Replogle 2022 standardized input"
+        software_environment: frozen_local
+        repository:
+          url: /home/yunzliu/omnibenchmark_modules/perturbation_status_data
+          commit: 88afa351b21b330d7ee44b77efe30d3fc4a4b245
+        parameters:
+          - h5ad: /data/yunzliu/perturbation_status_estimation_benchmark/01_standardize_inputs/outputs/replogle2022/perturbation_adata.h5ad
+            project_root: /data/yunzliu/perturbation_status_estimation_benchmark
+            mixscape_config: /data/yunzliu/perturbation_status_estimation_benchmark/03_mixscape/config/replogle2022_sa.yaml
+            pooled_config: /data/yunzliu/perturbation_status_estimation_benchmark/03_mixscape/sharding/replogle2022_pooled.yaml
+            mixscale_config: /data/yunzliu/perturbation_status_estimation_benchmark/04_mixscale/config/replogle2022_pooled.yaml
+            ps_input_config: /data/yunzliu/perturbation_status_estimation_benchmark/05_ps/config/replogle2022.yaml
+            ps_run_config: /data/yunzliu/perturbation_status_estimation_benchmark/05_ps/config/replogle2022_scalable.yaml
+            target_expression_config: /data/yunzliu/perturbation_status_estimation_benchmark/06_target_expression_baseline/config/replogle2022.yaml
+    outputs:
+      - { id: data.h5ad, path: "{dataset}.h5ad" }
+      - { id: data.spec, path: "{dataset}.spec.json" }
+
+  - id: shared_signature
+    resources: { cores: 4, mem_mb: 100000 }
+    modules:
+      - id: calc_perturb_sig
+        name: "Shared CalcPerturbSig signature and frozen target shards"
+        software_environment: frozen_local
+        repository:
+          url: /home/yunzliu/omnibenchmark_modules/perturbation_status_mixscape_mixscale
+          commit: d1975476a0723b0be62f09867c9037d458b4bf98
+          entrypoint: shared
+    inputs:
+      - data.h5ad
+      - data.spec
+    outputs:
+      - { id: shared_signature.bundle, path: "shared_signature.tar.gz" }
+      - { id: shared_signature.manifest, path: "shared_manifest.json" }
+
+  - id: status_estimation
+    resources: { cores: 4, mem_mb: 100000 }
+    modules:
+      - id: mixscape_mixscale
+        name: "Mixscape and Mixscale perturbation-status estimation"
+        software_environment: frozen_local
+        repository:
+          url: /home/yunzliu/omnibenchmark_modules/perturbation_status_mixscape_mixscale
+          commit: d1975476a0723b0be62f09867c9037d458b4bf98
+        parameters:
+          - method: [mixscape, mixscale]
+            workers: 4
+      - id: ps
+        name: "PS perturbation-status estimation"
+        software_environment: frozen_local
+        repository:
+          url: /home/yunzliu/omnibenchmark_modules/perturbation_status_ps
+          commit: 9bb59dffbbcc3d22c3f80c8aab2179140f037e87
+        parameters:
+          - workers: 4
+    inputs:
+      - data.h5ad
+      - data.spec
+      - shared_signature.bundle
+    outputs:
+      - { id: status_estimation.result, path: "status_result.tsv.gz" }
+      - { id: status_estimation.manifest, path: "method_manifest.json" }
+      - { id: status_estimation.aux, path: "method_aux.tar.gz" }
+
+metric_collectors:
+  - id: benchmark
+    name: "Complete v0.3 construct-aware perturbation-status benchmark"
+    software_environment: frozen_local
+    resources: { cores: 16, mem_mb: 120000 }
+    repository:
+      url: /home/yunzliu/omnibenchmark_modules/perturbation_status_metrics
+      commit: 6525f4b860230b909833c8d28cc8e8ff370915f9
+    inputs:
+      - data.h5ad
+      - data.spec
+      - shared_signature.bundle
+      - shared_signature.manifest
+      - status_estimation.result
+      - status_estimation.manifest
+      - status_estimation.aux
+    outputs:
+      - { id: benchmark.summary, path: "benchmark_summary.tsv" }
+      - { id: benchmark.results, path: "benchmark_results.tar.gz" }
+      - { id: benchmark.manifest, path: "benchmark_manifest.json" }
+      - { id: benchmark.parity, path: "parity_report.json" }
