@@ -6,5 +6,5 @@ Target expression is computed only inside the engagement metric as a reference
 quantity and is not exposed as a fourth method.
 
 The local host backend intentionally calls the frozen project environments.
-Repository URLs can be changed to the `tmp-perturb` remotes after review without
-changing the pinned module commits.
+All module repositories are pinned to reviewed commits in the `tmp-perturb`
+organization.

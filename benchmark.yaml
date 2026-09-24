@@ -15,7 +15,7 @@ stages:
         name: "Papalexi 2021 standardized input"
         software_environment: frozen_local
         repository:
-          url: /home/yunzliu/omnibenchmark_modules/perturbation_status_data
+          url: https://github.com/tmp-perturb/perturbation-status-data.git
           commit: 88afa351b21b330d7ee44b77efe30d3fc4a4b245
         parameters:
           - h5ad: /data/yunzliu/perturbation_status_estimation_benchmark/01_standardize_inputs/outputs/papalexi2021/perturbation_adata.h5ad
@@ -30,7 +30,7 @@ stages:
         name: "Norman 2019 standardized input"
         software_environment: frozen_local
         repository:
-          url: /home/yunzliu/omnibenchmark_modules/perturbation_status_data
+          url: https://github.com/tmp-perturb/perturbation-status-data.git
           commit: 88afa351b21b330d7ee44b77efe30d3fc4a4b245
         parameters:
           - h5ad: /data/yunzliu/perturbation_status_estimation_benchmark/01_standardize_inputs/outputs/norman2019/perturbation_adata.h5ad
@@ -45,7 +45,7 @@ stages:
         name: "Replogle 2022 standardized input"
         software_environment: frozen_local
         repository:
-          url: /home/yunzliu/omnibenchmark_modules/perturbation_status_data
+          url: https://github.com/tmp-perturb/perturbation-status-data.git
           commit: 88afa351b21b330d7ee44b77efe30d3fc4a4b245
         parameters:
           - h5ad: /data/yunzliu/perturbation_status_estimation_benchmark/01_standardize_inputs/outputs/replogle2022/perturbation_adata.h5ad
@@ -67,7 +67,7 @@ stages:
         name: "Shared CalcPerturbSig signature and frozen target shards"
         software_environment: frozen_local
         repository:
-          url: /home/yunzliu/omnibenchmark_modules/perturbation_status_mixscape_mixscale
+          url: https://github.com/tmp-perturb/perturbation-status-mixscape-mixscale.git
           commit: d1975476a0723b0be62f09867c9037d458b4bf98
           entrypoint: shared
     inputs:
@@ -84,7 +84,7 @@ stages:
         name: "Mixscape and Mixscale perturbation-status estimation"
         software_environment: frozen_local
         repository:
-          url: /home/yunzliu/omnibenchmark_modules/perturbation_status_mixscape_mixscale
+          url: https://github.com/tmp-perturb/perturbation-status-mixscape-mixscale.git
           commit: d1975476a0723b0be62f09867c9037d458b4bf98
         parameters:
           - method: [mixscape, mixscale]
@@ -93,7 +93,7 @@ stages:
         name: "PS perturbation-status estimation"
         software_environment: frozen_local
         repository:
-          url: /home/yunzliu/omnibenchmark_modules/perturbation_status_ps
+          url: https://github.com/tmp-perturb/perturbation-status-ps.git
           commit: 9bb59dffbbcc3d22c3f80c8aab2179140f037e87
         parameters:
           - workers: 4
@@ -112,7 +112,7 @@ metric_collectors:
     software_environment: frozen_local
     resources: { cores: 16, mem_mb: 120000 }
     repository:
-      url: /home/yunzliu/omnibenchmark_modules/perturbation_status_metrics
+      url: https://github.com/tmp-perturb/perturbation-status-metrics.git
       commit: 6525f4b860230b909833c8d28cc8e8ff370915f9
     inputs:
       - data.h5ad
