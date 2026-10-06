@@ -1,6 +1,6 @@
 id: perturbation_status_estimation
 description: "Complete perturbation-status estimation benchmark across Papalexi 2021, Norman 2019 and Replogle 2022."
-version: "0.2.0"
+version: "0.3.0"
 benchmarker: "Yunzhe Liu, richelieu.xmas@gmail.com"
 
 software_backend: host
@@ -108,12 +108,12 @@ stages:
 
 metric_collectors:
   - id: benchmark
-    name: "Complete v0.3 construct-aware perturbation-status benchmark"
+    name: "Complete data-only perturbation-status benchmark"
     software_environment: frozen_local
     resources: { cores: 16, mem_mb: 120000 }
     repository:
       url: git@github.com:tmp-perturb/perturbation-status-metrics.git
-      commit: 6525f4b860230b909833c8d28cc8e8ff370915f9
+      commit: b33330d87af2ba69d037cb35effdffa6d8fdfd29
     inputs:
       - data.h5ad
       - data.spec
