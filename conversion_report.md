@@ -24,14 +24,16 @@ applicable.
 
 ## Assumptions
 
-- Absolute local data and environment paths are retained for internal review.
+- Only source H5AD paths remain local; method code and configuration are owned
+  by their modules, and software environments are fixed as versioned Apptainer
+  definitions and public GitHub Release images.
 - Shared signature generation is a technical dependency, not a method ranking.
 - PS accepts the stage-level shared-artifact argument but does not read it.
 
 ## Validation
 
-- Omnibenchmark plan validation and 16-rule dry-run passed.
-- Papalexi 2021 completed end to end for all three methods and all data-only benchmark stages.
+- The v0.4 plan and all module entrypoints passed schema/contract and syntax checks.
+- Papalexi 2021 completed end to end after removal of the development-project dependency.
 - The transient target-expression reference covered all 13,757 eligible targeted cells.
 - Parity passed for all 32 comparable Papalexi tables, including harmonized scores,
   expression intermediates, metrics, and the final summary.

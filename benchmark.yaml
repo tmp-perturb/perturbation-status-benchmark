@@ -1,61 +1,47 @@
 id: perturbation_status_estimation
 description: "Complete perturbation-status estimation benchmark across Papalexi 2021, Norman 2019 and Replogle 2022."
-version: "0.3.0"
+version: "0.4.4"
 benchmarker: "Yunzhe Liu, richelieu.xmas@gmail.com"
 
-software_backend: host
+software_backend: apptainer
 software_environments:
-  frozen_local:
-    description: "Frozen project-owned Python/R environments used by the completed benchmark implementation."
+  mixscape:
+    description: "Python 3.13, R 4.5.3, pinned Seurat Mixscape and presto."
+    apptainer: https://github.com/tmp-perturb/perturbation-status-mixscape-mixscale/releases/download/v0.4.4/mixscape.sif
+  mixscale:
+    description: "Python 3.13, R 4.5.3, pinned Mixscale and presto."
+    apptainer: https://github.com/tmp-perturb/perturbation-status-mixscape-mixscale/releases/download/v0.4.4/mixscale.sif
+  ps:
+    description: "Python 3.13, R 4.5.3, pinned scMAGeCK PS and presto."
+    apptainer: https://github.com/tmp-perturb/perturbation-status-ps/releases/download/v0.4.2/ps.sif
 
 stages:
   - id: data
     modules:
       - id: papalexi2021
         name: "Papalexi 2021 standardized input"
-        software_environment: frozen_local
+        software_environment: mixscape
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-data.git
-          commit: 88afa351b21b330d7ee44b77efe30d3fc4a4b245
+          commit: 1348f9d7a2d0d9a8f5367e9b57b992127a77031a
         parameters:
           - h5ad: /data/yunzliu/perturbation_status_estimation_benchmark/01_standardize_inputs/outputs/papalexi2021/perturbation_adata.h5ad
-            project_root: /data/yunzliu/perturbation_status_estimation_benchmark
-            mixscape_config: /data/yunzliu/perturbation_status_estimation_benchmark/03_mixscape/config/papalexi2021.yaml
-            pooled_config: /data/yunzliu/perturbation_status_estimation_benchmark/03_mixscape/sharding/papalexi2021_pooled.yaml
-            mixscale_config: /data/yunzliu/perturbation_status_estimation_benchmark/04_mixscale/config/papalexi2021_pooled.yaml
-            ps_input_config: /data/yunzliu/perturbation_status_estimation_benchmark/05_ps/config/papalexi2021.yaml
-            ps_run_config: /data/yunzliu/perturbation_status_estimation_benchmark/05_ps/config/papalexi2021_scalable.yaml
-            target_expression_config: /data/yunzliu/perturbation_status_estimation_benchmark/06_target_expression_baseline/config/papalexi2021.yaml
       - id: norman2019
         name: "Norman 2019 standardized input"
-        software_environment: frozen_local
+        software_environment: mixscape
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-data.git
-          commit: 88afa351b21b330d7ee44b77efe30d3fc4a4b245
+          commit: 1348f9d7a2d0d9a8f5367e9b57b992127a77031a
         parameters:
           - h5ad: /data/yunzliu/perturbation_status_estimation_benchmark/01_standardize_inputs/outputs/norman2019/perturbation_adata.h5ad
-            project_root: /data/yunzliu/perturbation_status_estimation_benchmark
-            mixscape_config: /data/yunzliu/perturbation_status_estimation_benchmark/03_mixscape/config/norman2019.yaml
-            pooled_config: /data/yunzliu/perturbation_status_estimation_benchmark/03_mixscape/sharding/norman2019_pooled.yaml
-            mixscale_config: /data/yunzliu/perturbation_status_estimation_benchmark/04_mixscale/config/norman2019_pooled.yaml
-            ps_input_config: /data/yunzliu/perturbation_status_estimation_benchmark/05_ps/config/norman2019.yaml
-            ps_run_config: /data/yunzliu/perturbation_status_estimation_benchmark/05_ps/config/norman2019_scalable.yaml
-            target_expression_config: /data/yunzliu/perturbation_status_estimation_benchmark/06_target_expression_baseline/config/norman2019.yaml
       - id: replogle2022
         name: "Replogle 2022 standardized input"
-        software_environment: frozen_local
+        software_environment: mixscape
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-data.git
-          commit: 88afa351b21b330d7ee44b77efe30d3fc4a4b245
+          commit: 1348f9d7a2d0d9a8f5367e9b57b992127a77031a
         parameters:
           - h5ad: /data/yunzliu/perturbation_status_estimation_benchmark/01_standardize_inputs/outputs/replogle2022/perturbation_adata.h5ad
-            project_root: /data/yunzliu/perturbation_status_estimation_benchmark
-            mixscape_config: /data/yunzliu/perturbation_status_estimation_benchmark/03_mixscape/config/replogle2022_sa.yaml
-            pooled_config: /data/yunzliu/perturbation_status_estimation_benchmark/03_mixscape/sharding/replogle2022_pooled.yaml
-            mixscale_config: /data/yunzliu/perturbation_status_estimation_benchmark/04_mixscale/config/replogle2022_pooled.yaml
-            ps_input_config: /data/yunzliu/perturbation_status_estimation_benchmark/05_ps/config/replogle2022.yaml
-            ps_run_config: /data/yunzliu/perturbation_status_estimation_benchmark/05_ps/config/replogle2022_scalable.yaml
-            target_expression_config: /data/yunzliu/perturbation_status_estimation_benchmark/06_target_expression_baseline/config/replogle2022.yaml
     outputs:
       - { id: data.h5ad, path: "{dataset}.h5ad" }
       - { id: data.spec, path: "{dataset}.spec.json" }
@@ -65,10 +51,10 @@ stages:
     modules:
       - id: calc_perturb_sig
         name: "Shared CalcPerturbSig signature and frozen target shards"
-        software_environment: frozen_local
+        software_environment: mixscape
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-mixscape-mixscale.git
-          commit: d1975476a0723b0be62f09867c9037d458b4bf98
+          commit: 1c0da01ef04b0594e76eb62b1a0f7acb1f7c7be4
           entrypoint: shared
     inputs:
       - data.h5ad
@@ -80,21 +66,30 @@ stages:
   - id: status_estimation
     resources: { cores: 4, mem_mb: 100000 }
     modules:
-      - id: mixscape_mixscale
-        name: "Mixscape and Mixscale perturbation-status estimation"
-        software_environment: frozen_local
+      - id: mixscape
+        name: "Mixscape perturbation-status estimation"
+        software_environment: mixscape
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-mixscape-mixscale.git
-          commit: d1975476a0723b0be62f09867c9037d458b4bf98
+          commit: 1c0da01ef04b0594e76eb62b1a0f7acb1f7c7be4
         parameters:
-          - method: [mixscape, mixscale]
+          - method: mixscape
+            workers: 4
+      - id: mixscale
+        name: "Mixscale perturbation-status estimation"
+        software_environment: mixscale
+        repository:
+          url: git@github.com:tmp-perturb/perturbation-status-mixscape-mixscale.git
+          commit: 1c0da01ef04b0594e76eb62b1a0f7acb1f7c7be4
+        parameters:
+          - method: mixscale
             workers: 4
       - id: ps
         name: "PS perturbation-status estimation"
-        software_environment: frozen_local
+        software_environment: ps
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-ps.git
-          commit: 9bb59dffbbcc3d22c3f80c8aab2179140f037e87
+          commit: 34dcd7072e2127e76bca92b4ccdc4a804f1c2766
         parameters:
           - workers: 4
     inputs:
@@ -109,11 +104,11 @@ stages:
 metric_collectors:
   - id: benchmark
     name: "Complete data-only perturbation-status benchmark"
-    software_environment: frozen_local
+    software_environment: mixscale
     resources: { cores: 16, mem_mb: 120000 }
     repository:
       url: git@github.com:tmp-perturb/perturbation-status-metrics.git
-      commit: b33330d87af2ba69d037cb35effdffa6d8fdfd29
+      commit: 5a5abcb2a32bc8d867b9d863ff1461a8b40cbd93
     inputs:
       - data.h5ad
       - data.spec
