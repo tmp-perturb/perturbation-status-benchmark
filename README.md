@@ -8,10 +8,15 @@ data-only: figure generation remains in the separate thesis figure framework.
 
 Method scripts and benchmark configuration are versioned inside their owning
 modules; no module imports code or environments from the original development
-project. Fixed Apptainer definitions are published with the method repositories
-and the plan uses their public, versioned GitHub Release images. All module repositories are
-pinned to reviewed commits in the `tmp-perturb` organization.
+project. The plan uses Omnibenchmark's native Conda backend with versioned YAML
+files under `envs/`. Exact upstream revisions unavailable as suitable Conda
+packages are bundled with the owning method module and installed into a
+task-local library without network access. All module repositories are pinned
+to reviewed commits in the `tmp-perturb` organization.
 
 The only remaining machine-local values are the three source H5AD parameters.
 They are the benchmark inputs and are intentionally left for a separate data
 distribution decision.
+
+See `ENVIRONMENTS.md` for the environment and source-pinning policy shared with
+the guide-extraction and guide-assignment benchmarks.

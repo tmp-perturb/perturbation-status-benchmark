@@ -1,26 +1,29 @@
 id: perturbation_status_estimation
 description: "Complete perturbation-status estimation benchmark across Papalexi 2021, Norman 2019 and Replogle 2022."
-version: "0.4.4"
+version: "0.5.0"
 benchmarker: "Yunzhe Liu, richelieu.xmas@gmail.com"
 
-software_backend: apptainer
+software_backend: conda
 software_environments:
+  common:
+    description: "Pinned Python data and benchmark utilities."
+    conda: envs/common.yml
   mixscape:
-    description: "Python 3.13, R 4.5.3, pinned Seurat Mixscape and presto."
-    apptainer: https://github.com/tmp-perturb/perturbation-status-mixscape-mixscale/releases/download/v0.4.4/mixscape.sif
+    description: "Python 3.12, R 4.5.3, Seurat plus module-bundled pinned method sources."
+    conda: envs/mixscape.yml
   mixscale:
-    description: "Python 3.13, R 4.5.3, pinned Mixscale and presto."
-    apptainer: https://github.com/tmp-perturb/perturbation-status-mixscape-mixscale/releases/download/v0.4.4/mixscale.sif
+    description: "Python 3.12, R 4.5.3, Mixscale runtime dependencies."
+    conda: envs/mixscale.yml
   ps:
-    description: "Python 3.13, R 4.5.3, pinned scMAGeCK PS and presto."
-    apptainer: https://github.com/tmp-perturb/perturbation-status-ps/releases/download/v0.4.2/ps.sif
+    description: "Python 3.12, R 4.5.3, scMAGeCK PS runtime dependencies."
+    conda: envs/ps.yml
 
 stages:
   - id: data
     modules:
       - id: papalexi2021
         name: "Papalexi 2021 standardized input"
-        software_environment: mixscape
+        software_environment: common
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-data.git
           commit: 1348f9d7a2d0d9a8f5367e9b57b992127a77031a
@@ -28,7 +31,7 @@ stages:
           - h5ad: /data/yunzliu/perturbation_status_estimation_benchmark/01_standardize_inputs/outputs/papalexi2021/perturbation_adata.h5ad
       - id: norman2019
         name: "Norman 2019 standardized input"
-        software_environment: mixscape
+        software_environment: common
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-data.git
           commit: 1348f9d7a2d0d9a8f5367e9b57b992127a77031a
@@ -36,7 +39,7 @@ stages:
           - h5ad: /data/yunzliu/perturbation_status_estimation_benchmark/01_standardize_inputs/outputs/norman2019/perturbation_adata.h5ad
       - id: replogle2022
         name: "Replogle 2022 standardized input"
-        software_environment: mixscape
+        software_environment: common
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-data.git
           commit: 1348f9d7a2d0d9a8f5367e9b57b992127a77031a
@@ -54,7 +57,7 @@ stages:
         software_environment: mixscape
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-mixscape-mixscale.git
-          commit: 1c0da01ef04b0594e76eb62b1a0f7acb1f7c7be4
+          commit: bf49eb4f69f668770a0a2299eeb92c9c9c592213
           entrypoint: shared
     inputs:
       - data.h5ad
@@ -71,7 +74,7 @@ stages:
         software_environment: mixscape
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-mixscape-mixscale.git
-          commit: 1c0da01ef04b0594e76eb62b1a0f7acb1f7c7be4
+          commit: bf49eb4f69f668770a0a2299eeb92c9c9c592213
         parameters:
           - method: mixscape
             workers: 4
@@ -80,7 +83,7 @@ stages:
         software_environment: mixscale
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-mixscape-mixscale.git
-          commit: 1c0da01ef04b0594e76eb62b1a0f7acb1f7c7be4
+          commit: bf49eb4f69f668770a0a2299eeb92c9c9c592213
         parameters:
           - method: mixscale
             workers: 4
@@ -89,7 +92,7 @@ stages:
         software_environment: ps
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-ps.git
-          commit: 34dcd7072e2127e76bca92b4ccdc4a804f1c2766
+          commit: c615157a53ad8d17cca2c929238cc76c6697145f
         parameters:
           - workers: 4
     inputs:
