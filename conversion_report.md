@@ -24,15 +24,17 @@ applicable.
 
 ## Assumptions
 
-- Only source H5AD paths remain local; method code and configuration are owned
-  by their modules, and software environments are fixed as versioned Apptainer
-  definitions and public GitHub Release images.
+- Only source H5AD paths remain local. Method code and configuration are owned
+  by their modules, and software environments are declared by versioned Conda
+  YAML files in this benchmark repository. Exact Git-only R sources are bundled
+  with their owning modules.
 - Shared signature generation is a technical dependency, not a method ranking.
 - PS accepts the stage-level shared-artifact argument but does not read it.
 
 ## Validation
 
-- The v0.4 plan and all module entrypoints passed schema/contract and syntax checks.
+- The v0.5 plan and all module entrypoints passed structural and syntax checks.
+- The Mixscape, Mixscale, and PS Conda environments completed dry solving.
 - Papalexi 2021 completed end to end after removal of the development-project dependency.
 - The transient target-expression reference covered all 13,757 eligible targeted cells.
 - Parity passed for all 32 comparable Papalexi tables, including harmonized scores,

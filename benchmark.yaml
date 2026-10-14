@@ -57,7 +57,7 @@ stages:
         software_environment: mixscape
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-mixscape-mixscale.git
-          commit: bf49eb4f69f668770a0a2299eeb92c9c9c592213
+          commit: 599bfa03a446e7f8c0bf65d6f0b3a3c10af0f04b
           entrypoint: shared
     inputs:
       - data.h5ad
@@ -74,7 +74,7 @@ stages:
         software_environment: mixscape
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-mixscape-mixscale.git
-          commit: bf49eb4f69f668770a0a2299eeb92c9c9c592213
+          commit: 599bfa03a446e7f8c0bf65d6f0b3a3c10af0f04b
         parameters:
           - method: mixscape
             workers: 4
@@ -83,7 +83,7 @@ stages:
         software_environment: mixscale
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-mixscape-mixscale.git
-          commit: bf49eb4f69f668770a0a2299eeb92c9c9c592213
+          commit: 599bfa03a446e7f8c0bf65d6f0b3a3c10af0f04b
         parameters:
           - method: mixscale
             workers: 4
@@ -92,7 +92,7 @@ stages:
         software_environment: ps
         repository:
           url: git@github.com:tmp-perturb/perturbation-status-ps.git
-          commit: c615157a53ad8d17cca2c929238cc76c6697145f
+          commit: e9d67f011290262ecc88be47e3e0628b27a4bbef
         parameters:
           - workers: 4
     inputs:
