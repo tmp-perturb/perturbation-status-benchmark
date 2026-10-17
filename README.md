@@ -12,7 +12,7 @@ project. The plan uses Omnibenchmark's native Conda backend with versioned YAML
 files under `envs/`. Exact upstream revisions unavailable as suitable Conda
 packages are bundled with the owning method module and installed into a
 task-local library without network access. All module repositories are pinned
-to reviewed commits in the `tmp-perturb` organization.
+to reviewed commits in the `scprocess-perturb-benchmarks` organization.
 
 The only remaining machine-local values are the three source H5AD parameters.
 They are the benchmark inputs and are intentionally left for a separate data

@@ -7,5 +7,5 @@ authors:
     given-names: Yunzhe
 version: 0.5.0
 date-released: 2026-10-14
-repository-code: "https://github.com/tmp-perturb/perturbation-status-benchmark"
+repository-code: "https://github.com/scprocess-perturb-benchmarks/perturbation-status-benchmark"
 license: MIT

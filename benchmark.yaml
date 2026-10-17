@@ -25,7 +25,7 @@ stages:
         name: "Papalexi 2021 standardized input"
         software_environment: common
         repository:
-          url: git@github.com:tmp-perturb/perturbation-status-data.git
+          url: git@github.com:scprocess-perturb-benchmarks/perturbation-status-data.git
           commit: 1348f9d7a2d0d9a8f5367e9b57b992127a77031a
         parameters:
           - h5ad: /data/yunzliu/perturbation_status_estimation_benchmark/01_standardize_inputs/outputs/papalexi2021/perturbation_adata.h5ad
@@ -33,7 +33,7 @@ stages:
         name: "Norman 2019 standardized input"
         software_environment: common
         repository:
-          url: git@github.com:tmp-perturb/perturbation-status-data.git
+          url: git@github.com:scprocess-perturb-benchmarks/perturbation-status-data.git
           commit: 1348f9d7a2d0d9a8f5367e9b57b992127a77031a
         parameters:
           - h5ad: /data/yunzliu/perturbation_status_estimation_benchmark/01_standardize_inputs/outputs/norman2019/perturbation_adata.h5ad
@@ -41,7 +41,7 @@ stages:
         name: "Replogle 2022 standardized input"
         software_environment: common
         repository:
-          url: git@github.com:tmp-perturb/perturbation-status-data.git
+          url: git@github.com:scprocess-perturb-benchmarks/perturbation-status-data.git
           commit: 1348f9d7a2d0d9a8f5367e9b57b992127a77031a
         parameters:
           - h5ad: /data/yunzliu/perturbation_status_estimation_benchmark/01_standardize_inputs/outputs/replogle2022/perturbation_adata.h5ad
@@ -56,7 +56,7 @@ stages:
         name: "Shared CalcPerturbSig signature and frozen target shards"
         software_environment: mixscape
         repository:
-          url: git@github.com:tmp-perturb/perturbation-status-mixscape-mixscale.git
+          url: git@github.com:scprocess-perturb-benchmarks/perturbation-status-mixscape-mixscale.git
           commit: 599bfa03a446e7f8c0bf65d6f0b3a3c10af0f04b
           entrypoint: shared
     inputs:
@@ -73,7 +73,7 @@ stages:
         name: "Mixscape perturbation-status estimation"
         software_environment: mixscape
         repository:
-          url: git@github.com:tmp-perturb/perturbation-status-mixscape-mixscale.git
+          url: git@github.com:scprocess-perturb-benchmarks/perturbation-status-mixscape-mixscale.git
           commit: 599bfa03a446e7f8c0bf65d6f0b3a3c10af0f04b
         parameters:
           - method: mixscape
@@ -82,7 +82,7 @@ stages:
         name: "Mixscale perturbation-status estimation"
         software_environment: mixscale
         repository:
-          url: git@github.com:tmp-perturb/perturbation-status-mixscape-mixscale.git
+          url: git@github.com:scprocess-perturb-benchmarks/perturbation-status-mixscape-mixscale.git
           commit: 599bfa03a446e7f8c0bf65d6f0b3a3c10af0f04b
         parameters:
           - method: mixscale
@@ -91,7 +91,7 @@ stages:
         name: "PS perturbation-status estimation"
         software_environment: ps
         repository:
-          url: git@github.com:tmp-perturb/perturbation-status-ps.git
+          url: git@github.com:scprocess-perturb-benchmarks/perturbation-status-ps.git
           commit: e9d67f011290262ecc88be47e3e0628b27a4bbef
         parameters:
           - workers: 4
@@ -110,7 +110,7 @@ metric_collectors:
     software_environment: mixscale
     resources: { cores: 16, mem_mb: 120000 }
     repository:
-      url: git@github.com:tmp-perturb/perturbation-status-metrics.git
+      url: git@github.com:scprocess-perturb-benchmarks/perturbation-status-metrics.git
       commit: 5a5abcb2a32bc8d867b9d863ff1461a8b40cbd93
     inputs:
       - data.h5ad
